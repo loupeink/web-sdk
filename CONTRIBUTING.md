@@ -1,6 +1,6 @@
 # Contributing to @loupeink/web-sdk
 
-Thanks for your interest in contributing! This is the public SDK repo for [Loupe](https://useloupe.com).
+Thanks for your interest in contributing! This is the public SDK repo for [Loupe](https://loupe.ink).
 
 ## Development Setup
 
