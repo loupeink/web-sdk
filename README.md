@@ -1,9 +1,9 @@
-# @loupe/web
+# @loupeink/web-sdk
 
-[![npm version](https://img.shields.io/npm/v/@loupe/web)](https://www.npmjs.com/package/@loupe/web)
+[![npm version](https://img.shields.io/npm/v/@loupeink/web-sdk)](https://www.npmjs.com/package/@loupeink/web-sdk)
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
-Floating feedback widget for web apps — captures screenshots, annotations, and page context, then submits directly to your [Loupe](https://useloupe.com) dashboard.
+Floating feedback widget for web apps — captures screenshots, annotations, and page context, then submits directly to your [Loupe](https://loupe.ink) dashboard.
 
 ## Features
 
@@ -17,11 +17,11 @@ Floating feedback widget for web apps — captures screenshots, annotations, and
 ## Install
 
 ```bash
-npm install @loupe/web
+npm install @loupeink/web-sdk
 # or
-yarn add @loupe/web
+yarn add @loupeink/web-sdk
 # or
-pnpm add @loupe/web
+pnpm add @loupeink/web-sdk
 ```
 
 ## Quick Start
@@ -29,7 +29,7 @@ pnpm add @loupe/web
 ### npm / bundler
 
 ```typescript
-import { init } from '@loupe/web';
+import { init } from '@loupeink/web-sdk';
 
 init({
   apiKey: 'lp_your_project_api_key',
@@ -39,7 +39,7 @@ init({
 ### CDN / script tag
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@loupe/web/dist/index.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@loupeink/web-sdk/dist/index.global.js"></script>
 <script>
   Loupe.init({ apiKey: 'lp_your_project_api_key' });
 </script>
@@ -59,7 +59,7 @@ Place the snippet before `</body>`. The widget mounts automatically.
 
 ## Getting an API key
 
-1. Sign in to your [Loupe dashboard](https://useloupe.com)
+1. Sign in to your [Loupe dashboard](https://loupe.ink)
 2. Open a project → **API Keys**
 3. Click **Generate key** — copy the `lp_…` key
 4. Pass it to `init({ apiKey: '...' })`
