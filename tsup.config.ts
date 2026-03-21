@@ -21,5 +21,8 @@ export default defineConfig([
     sourcemap: true,
     outDir: 'dist',
     outExtension: () => ({ js: '.global.js' }),
+    env: {
+      NODE_ENV: 'production',
+    },
   },
 ]);
