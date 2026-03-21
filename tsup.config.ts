@@ -10,6 +10,7 @@ export default defineConfig([
     minify: false,
     sourcemap: true,
     outDir: 'dist',
+    outExtension: ({ format }) => ({ js: format === 'cjs' ? '.cjs' : '.js' }),
   },
   // CDN / script-tag consumers (IIFE, minified)
   {

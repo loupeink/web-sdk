@@ -19,7 +19,7 @@ export class LoupeWidget {
   constructor(config: LoupeWidgetConfig) {
     this.config = {
       apiKey: config.apiKey,
-      edgeFunctionUrl: config.edgeFunctionUrl ?? 'https://YOUR_SUPABASE_PROJECT.supabase.co/functions/v1/submit-sdk-feedback',
+      edgeFunctionUrl: config.edgeFunctionUrl ?? 'https://etdekhjnkevmrkgqixow.supabase.co/functions/v1/submit-sdk-feedback',
       position: config.position ?? 'bottom-right',
       color: config.color ?? '#10b981',
       buttonLabel: config.buttonLabel ?? 'Feedback',
