@@ -7,6 +7,12 @@ export async function captureScreenshot(widgetHostEl: HTMLElement): Promise<stri
       useCORS: true,
       allowTaint: false,
       logging: false,
+      x: window.scrollX,
+      y: window.scrollY,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
     });
     return canvas.toDataURL('image/jpeg', 0.8);
   } finally {
