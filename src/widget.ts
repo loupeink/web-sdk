@@ -2,6 +2,7 @@ import { WIDGET_CSS } from './styles';
 import { captureScreenshot } from './screenshot';
 import { capturePageContext } from './context';
 import { submitFeedback } from './submit';
+import { mountAnnotationStep } from './annotation-step';
 
 export interface LoupeWidgetConfig {
   apiKey: string;
@@ -107,28 +108,47 @@ export class LoupeWidget {
       const comment = textarea.value.trim();
       const severity = select.value as 'critical' | 'major' | 'minor' | 'suggestion';
       const originalLabel = submitBtn.textContent;
-      submitBtn.textContent = 'Sending...';
+      submitBtn.textContent = 'Capturing...';
       submitBtn.setAttribute('disabled', '');
 
       try {
-        const screenshotDataUrl = await captureScreenshot(this.hostEl!).catch(() => null);
-        const context = capturePageContext();
+        // 1. Take screenshot of the page
+        const rawDataUrl = await captureScreenshot(this.hostEl!).catch(() => null);
 
-        await submitFeedback({
-          apiKey: this.config.apiKey,
-          edgeFunctionUrl: this.config.edgeFunctionUrl,
-          comment,
-          severity,
-          screenshotDataUrl,
-          context,
-        });
-
-        // On success: hide modal, clear textarea
+        // 2. Hide the modal while annotation canvas is open
         modal.classList.remove('modal--visible');
-        textarea.value = '';
+
+        // 3. Open annotation step inside the shadow DOM
+        mountAnnotationStep(this.shadow!, rawDataUrl ?? '', {
+          onSave: async (_annotations, annotatedDataUrl) => {
+            // 4. Submit with annotated screenshot
+            const context = capturePageContext();
+            try {
+              await submitFeedback({
+                apiKey: this.config.apiKey,
+                edgeFunctionUrl: this.config.edgeFunctionUrl,
+                comment,
+                severity,
+                screenshotDataUrl: annotatedDataUrl,
+                context,
+              });
+              textarea.value = '';
+            } catch {
+              alert('Failed to send feedback. Please try again.');
+            } finally {
+              submitBtn.textContent = originalLabel;
+              submitBtn.removeAttribute('disabled');
+            }
+          },
+          onCancel: () => {
+            // User cancelled annotation — restore modal
+            modal.classList.add('modal--visible');
+            submitBtn.textContent = originalLabel;
+            submitBtn.removeAttribute('disabled');
+          },
+        });
       } catch {
-        alert('Failed to send feedback. Please try again.');
-      } finally {
+        alert('Failed to capture screenshot. Please try again.');
         submitBtn.textContent = originalLabel;
         submitBtn.removeAttribute('disabled');
       }
