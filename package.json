@@ -17,6 +17,7 @@
       }
     }
   },
+  "publishConfig": { "access": "public" },
   "files": ["dist"],
   "scripts": {
     "build": "tsup",
