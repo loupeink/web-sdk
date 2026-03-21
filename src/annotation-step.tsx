@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { KonvaCanvas } from '@loupe/ui';
-import type { AnnotationShape } from '@loupe/ui';
+import { KonvaCanvas } from '@loupeink/ui';
+import type { AnnotationShape } from '@loupeink/ui';
 
 // Full Tailwind + design-token CSS injected into Shadow DOM.
 // KonvaCanvas and KonvaToolbar use Tailwind utility classes and custom tokens
