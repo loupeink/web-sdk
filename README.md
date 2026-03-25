@@ -59,19 +59,62 @@ Place the snippet before `</body>`. The widget mounts automatically.
 
 ## Getting an API key
 
-1. Sign in to your [Loupe dashboard](https://loupe.ink)
+1. Sign in to [app.loupe.ink](https://app.loupe.ink)
 2. Open a project → **API Keys**
 3. Click **Generate key** — copy the `lp_…` key
 4. Pass it to `init({ apiKey: '...' })`
 
+## React
+
+Call `init` once at the app root. Use `destroy` for cleanup in StrictMode:
+
+```tsx
+import { useEffect } from 'react';
+import { init, destroy } from '@loupeink/web-sdk';
+
+export function App() {
+  useEffect(() => {
+    init({ apiKey: import.meta.env.VITE_LOUPE_API_KEY });
+    return () => destroy();
+  }, []);
+
+  return <YourApp />;
+}
+```
+
+Store your API key in `.env` as `VITE_LOUPE_API_KEY` — never commit it directly.
+
+## Cleanup
+
+To remove the widget from the DOM (route changes, test teardown, etc.):
+
+```typescript
+import { destroy } from '@loupeink/web-sdk';
+
+destroy();
+```
+
 ## How it works
 
 1. User clicks the floating button
-2. Widget captures the visible viewport via `html2canvas`
+2. Widget captures the visible viewport via `html2canvas` — no browser extension required
 3. Annotation overlay opens — user can draw, highlight, or blur regions on the screenshot
-4. User adds a comment and optionally sets severity (`critical`, `major`, `minor`, `suggestion`)
+4. User adds a comment and sets severity (`critical`, `major`, `minor`, `suggestion`)
 5. Annotated screenshot + metadata POST to the Loupe Edge Function, authenticated with the API key
-6. Feedback appears instantly in the Loupe dashboard
+6. Feedback appears instantly in the Loupe dashboard with URL, viewport, and browser context attached
+
+## Self-hosted / custom endpoint
+
+Route feedback through your own backend:
+
+```typescript
+init({
+  apiKey: 'lp_your_key',
+  endpoint: 'https://your-server.com/feedback',
+});
+```
+
+Your endpoint receives: `apiKey`, `comment`, `severity`, `screenshotDataUrl` (base64 PNG), and a `context` object (`url`, `title`, `viewport`, `userAgent`).
 
 ## Development
 
