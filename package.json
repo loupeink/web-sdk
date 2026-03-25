@@ -1,6 +1,6 @@
 {
   "name": "@loupeink/web-sdk",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -34,9 +34,11 @@
     "url": "https://github.com/loupeink/web-sdk"
   },
   "dependencies": {
-    "@loupeink/ui": "*",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@loupeink/ui": "*"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
