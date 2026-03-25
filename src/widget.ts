@@ -3,6 +3,7 @@ import { captureScreenshot } from './screenshot';
 import { capturePageContext } from './context';
 import { submitFeedback } from './submit';
 import { mountAnnotationStep } from './annotation-step';
+import { version } from '../package.json';
 
 export interface LoupeWidgetConfig {
   apiKey: string;
@@ -31,6 +32,7 @@ export class LoupeWidget {
   }
 
   mount(container: HTMLElement): void {
+    console.log(`[Loupe] web-sdk v${version}`);
     // Create shadow host
     this.hostEl = document.createElement('div');
     this.hostEl.id = 'loupe-widget-host';

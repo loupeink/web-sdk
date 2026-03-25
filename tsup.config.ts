@@ -11,6 +11,8 @@ export default defineConfig([
     sourcemap: true,
     outDir: 'dist',
     outExtension: ({ format }) => ({ js: format === 'cjs' ? '.cjs' : '.js' }),
+    // Bundle @loupeink/* so consumers don't need to install them separately
+    noExternal: [/@loupeink\//],
   },
   // CDN / script-tag consumers (IIFE, minified)
   {

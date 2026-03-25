@@ -1,6 +1,6 @@
 {
   "name": "@loupeink/web-sdk",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -17,10 +17,15 @@
       }
     }
   },
-  "publishConfig": { "access": "public" },
-  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsup",
+    "build": "test -d ../loupe-core && npm run build --prefix ../loupe-core && npm run build --prefix ../loupe-ui && tsup || (echo 'ERROR: Must build from monorepo (packages/web-sdk), not the public repo' && exit 1)",
+    "build:only": "tsup",
     "test": "vitest",
     "prepublishOnly": "npm run build"
   },
