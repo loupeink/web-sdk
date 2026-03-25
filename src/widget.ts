@@ -10,7 +10,6 @@ export interface LoupeWidgetConfig {
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
   color?: string;
   buttonLabel?: string;
-  dashboardUrl?: string;
 }
 
 export class LoupeWidget {
@@ -25,7 +24,6 @@ export class LoupeWidget {
       position: config.position ?? 'bottom-right',
       color: config.color ?? '#10b981',
       buttonLabel: config.buttonLabel ?? 'Feedback',
-      dashboardUrl: config.dashboardUrl ?? 'https://app.loupe.ink',
     };
   }
 
@@ -140,7 +138,7 @@ export class LoupeWidget {
                 context,
               });
               textarea.value = '';
-              this.showToast(result.project_id, result.id);
+              this.showToast(result.url);
             } catch {
               alert('Failed to send feedback. Please try again.');
             } finally {
@@ -166,7 +164,7 @@ export class LoupeWidget {
     });
   }
 
-  private showToast(projectId: string, itemId: string): void {
+  private showToast(url: string): void {
     if (!this.shadow) return;
 
     const toast = document.createElement('div');
@@ -176,7 +174,7 @@ export class LoupeWidget {
     text.textContent = 'Feedback sent.';
 
     const link = document.createElement('a');
-    link.href = `${this.config.dashboardUrl}/projects/${projectId}/${itemId}`;
+    link.href = url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.textContent = 'View in Loupe';

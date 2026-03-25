@@ -12,7 +12,7 @@ export interface SubmitFeedbackOpts {
 export interface SubmitFeedbackResult {
   ok: boolean;
   id: string;
-  project_id: string;
+  url: string;
 }
 
 export async function submitFeedback(opts: SubmitFeedbackOpts): Promise<SubmitFeedbackResult> {
