@@ -111,6 +111,23 @@ export const WIDGET_CSS = `
     display: flex;
     gap: 8px;
     justify-content: flex-end;
+    margin-bottom: 0;
+  }
+
+  .loupe-branding {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #27272a;
+    font-size: 11px;
+    color: #52525b;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+
+  .loupe-branding:hover {
+    color: #34d399;
   }
 
   .loupe-modal-submit {

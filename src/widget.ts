@@ -10,6 +10,8 @@ export interface LoupeWidgetConfig {
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
   color?: string;
   buttonLabel?: string;
+  /** Hide "Powered by Loupe" branding (available on Pro & Team plans) */
+  hideBranding?: boolean;
 }
 
 export class LoupeWidget {
@@ -24,6 +26,7 @@ export class LoupeWidget {
       position: config.position ?? 'bottom-right',
       color: config.color ?? '#10b981',
       buttonLabel: config.buttonLabel ?? 'Feedback',
+      hideBranding: config.hideBranding ?? false,
     };
   }
 
@@ -85,6 +88,16 @@ export class LoupeWidget {
     modal.appendChild(textarea);
     modal.appendChild(select);
     modal.appendChild(actions);
+
+    if (!this.config.hideBranding) {
+      const branding = document.createElement('a');
+      branding.className = 'loupe-branding';
+      branding.href = 'https://loupe.ink?ref=widget';
+      branding.target = '_blank';
+      branding.rel = 'noopener noreferrer';
+      branding.textContent = 'Powered by Loupe';
+      modal.appendChild(branding);
+    }
 
     // Append elements to shadow
     this.shadow.appendChild(button);

@@ -92,10 +92,12 @@ const ANNOTATION_CSS = `
   .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
   .border-none { border: none; }
   .border-border-default { border-color: var(--color-border-default); }
+  .border-border { border-color: var(--color-border-default); }
   .border-accent { border-color: var(--color-accent); }
   .rounded      { border-radius: 4px; }
   .rounded-full { border-radius: 9999px; }
   .rounded-lg   { border-radius: 8px; }
+  .rounded-md   { border-radius: 6px; }
   .shadow-lg    { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -2px rgba(0,0,0,0.2); }
 
   /* ── Typography ──────────────────────────────────────────── */
@@ -104,10 +106,12 @@ const ANNOTATION_CSS = `
   .font-mono    { font-family: ui-monospace, monospace; }
   .font-semibold { font-weight: 600; }
   .font-bold    { font-weight: 700; }
+  .font-medium  { font-weight: 500; }
   .uppercase    { text-transform: uppercase; }
   .tracking-wide { letter-spacing: 0.025em; }
   .outline-none { outline: none; }
   .resize-none  { resize: none; }
+  .whitespace-nowrap { white-space: nowrap; }
   .transition-colors { transition: color 150ms, background-color 150ms, border-color 150ms; }
 
   /* ── Hover states ────────────────────────────────────────── */
@@ -116,8 +120,7 @@ const ANNOTATION_CSS = `
   .hover\\:bg-accent:hover         { background-color: var(--color-accent); }
   .hover\\:text-accent-foreground:hover { color: var(--primary-foreground); }
 
-  .whitespace-nowrap { white-space: nowrap; }
-  .font-medium { font-weight: 500; }
+  .ring-offset-background { --tw-ring-offset-color: var(--color-surface-1); }
 
   /* ── Ring (active color swatch outline) ──────────────────── */
   .ring-2.ring-white.ring-offset-1 {
