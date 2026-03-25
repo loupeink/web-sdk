@@ -115,14 +115,7 @@ const ANNOTATION_CSS = `
   .hover\\:bg-surface-2:hover      { background-color: var(--color-surface-2); }
   .hover\\:bg-accent:hover         { background-color: var(--color-accent); }
   .hover\\:text-accent-foreground:hover { color: var(--primary-foreground); }
-  .hover\\:bg-primary\\/90:hover   { background-color: var(--primary); opacity: 0.9; }
 
-  /* ── Button variant tokens (active tool state) ─────────── */
-  .bg-primary             { background-color: var(--primary); }
-  .text-primary-foreground { color: var(--primary-foreground); }
-  .ring-offset-background { --tw-ring-offset-color: var(--color-surface-1); }
-  .disabled\\:opacity-50:disabled { opacity: 0.5; }
-  .disabled\\:pointer-events-none:disabled { pointer-events: none; }
   .whitespace-nowrap { white-space: nowrap; }
   .font-medium { font-weight: 500; }
 
@@ -143,6 +136,29 @@ const ANNOTATION_CSS = `
   }
   .loupe-annotation-wrap button:hover {
     background: var(--color-surface-3);
+  }
+
+  /* ── Active tool / active stroke — must beat the button reset ─── */
+  .loupe-annotation-wrap button.bg-primary {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border-color: var(--primary);
+  }
+  .loupe-annotation-wrap button.bg-primary:hover {
+    background-color: var(--primary);
+    opacity: 0.9;
+  }
+  .loupe-annotation-wrap button.bg-accent {
+    background-color: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .loupe-annotation-wrap button.border-accent {
+    border-color: var(--color-accent);
+  }
+  .loupe-annotation-wrap button:disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 `;
 
