@@ -151,9 +151,7 @@ export class LoupeWidget {
                 context,
               });
               textarea.value = '';
-              if (result.url) {
-                this.showToast(result.url);
-              }
+              this.showToast();
             } catch {
               alert('Failed to send feedback. Please try again.');
             } finally {
@@ -179,23 +177,12 @@ export class LoupeWidget {
     });
   }
 
-  private showToast(url: string): void {
+  private showToast(): void {
     if (!this.shadow) return;
 
     const toast = document.createElement('div');
     toast.className = 'loupe-toast';
-
-    const text = document.createElement('span');
-    text.textContent = 'Feedback sent.';
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.textContent = 'View in Loupe';
-
-    toast.appendChild(text);
-    toast.appendChild(link);
+    toast.textContent = 'Feedback sent. Thank you!';
     this.shadow.appendChild(toast);
 
     setTimeout(() => {

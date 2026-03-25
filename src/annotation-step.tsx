@@ -119,6 +119,7 @@ const ANNOTATION_CSS = `
   .hover\\:bg-surface-2:hover      { background-color: var(--color-surface-2); }
   .hover\\:bg-accent:hover         { background-color: var(--color-accent); }
   .hover\\:text-accent-foreground:hover { color: var(--primary-foreground); }
+  .hover\\:text-white:hover { color: #fff; }
 
   .ring-offset-background { --tw-ring-offset-color: var(--color-surface-1); }
 
@@ -163,6 +164,12 @@ const ANNOTATION_CSS = `
     opacity: 0.5;
     pointer-events: none;
   }
+
+  /* "Scroll to content" pill animation */
+  @keyframes loupe-slide-up {
+    from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
 `;
 
 interface AnnotationCallbacks {
@@ -187,18 +194,23 @@ export function mountAnnotationStep(
   styleEl.textContent = ANNOTATION_CSS;
   shadow.appendChild(styleEl);
 
-  // Create full-screen overlay container
+  // Create full-screen overlay with padding to distinguish from the page
+  const backdrop = document.createElement('div');
+  backdrop.style.cssText =
+    'position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,0.6);display:flex;align-items:stretch;justify-content:stretch;padding:12px;';
+  shadow.appendChild(backdrop);
+
   const container = document.createElement('div');
   container.className = 'loupe-annotation-wrap';
   container.style.cssText =
-    'position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,0.85);display:flex;flex-direction:column;';
-  shadow.appendChild(container);
+    'flex:1;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1px solid #3f3f46;box-shadow:0 0 40px rgba(0,0,0,0.5);';
+  backdrop.appendChild(container);
 
   const root = createRoot(container);
 
   function cleanup() {
     root.unmount();
-    container.remove();
+    backdrop.remove();
     styleEl.remove();
   }
 
