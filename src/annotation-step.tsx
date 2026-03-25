@@ -18,6 +18,8 @@ const ANNOTATION_CSS = `
     --color-text-secondary: #a1a1aa;
     --color-border-default: #27272a;
     --color-accent: #34d399;
+    --primary: #34d399;
+    --primary-foreground: #09090b;
     font-family: system-ui, -apple-system, sans-serif;
     font-size: 14px;
     color: var(--color-text-primary);
@@ -111,10 +113,25 @@ const ANNOTATION_CSS = `
   /* ── Hover states ────────────────────────────────────────── */
   .hover\\:text-text-primary:hover { color: var(--color-text-primary); }
   .hover\\:bg-surface-2:hover      { background-color: var(--color-surface-2); }
+  .hover\\:bg-accent:hover         { background-color: var(--color-accent); }
+  .hover\\:text-accent-foreground:hover { color: var(--primary-foreground); }
+  .hover\\:bg-primary\\/90:hover   { background-color: var(--primary); opacity: 0.9; }
+
+  /* ── Button variant tokens (active tool state) ─────────── */
+  .bg-primary             { background-color: var(--primary); }
+  .text-primary-foreground { color: var(--primary-foreground); }
+  .ring-offset-background { --tw-ring-offset-color: var(--color-surface-1); }
+  .disabled\\:opacity-50:disabled { opacity: 0.5; }
+  .disabled\\:pointer-events-none:disabled { pointer-events: none; }
+  .whitespace-nowrap { white-space: nowrap; }
+  .font-medium { font-weight: 500; }
 
   /* ── Ring (active color swatch outline) ──────────────────── */
   .ring-2.ring-white.ring-offset-1 {
     box-shadow: 0 0 0 1px var(--color-surface-1), 0 0 0 3px #fff;
+  }
+  .ring-offset-surface-1 {
+    --tw-ring-offset-color: var(--color-surface-1);
   }
 
   /* ── Button base reset (so host-page styles don't bleed) ─── */

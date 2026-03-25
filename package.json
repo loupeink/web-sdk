@@ -1,6 +1,6 @@
 {
   "name": "@loupeink/web-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -29,7 +29,6 @@
     "url": "https://github.com/loupeink/web-sdk"
   },
   "dependencies": {
-    "html2canvas-pro": "^1.0.0",
     "@loupeink/ui": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

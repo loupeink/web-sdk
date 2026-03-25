@@ -138,7 +138,9 @@ export class LoupeWidget {
                 context,
               });
               textarea.value = '';
-              this.showToast(result.url);
+              if (result.url) {
+                this.showToast(result.url);
+              }
             } catch {
               alert('Failed to send feedback. Please try again.');
             } finally {

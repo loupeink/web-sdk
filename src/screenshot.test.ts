@@ -1,13 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { captureScreenshot } from './screenshot';
 
-// Mock html2canvas-pro before any import resolution
-vi.mock('html2canvas-pro', () => ({
-  default: vi.fn().mockResolvedValue({
-    toDataURL: () => 'data:image/png;base64,abc',
-  }),
-}));
-
 describe('captureScreenshot (SDK-02)', () => {
   let mockHostEl: HTMLElement;
 
@@ -15,6 +8,33 @@ describe('captureScreenshot (SDK-02)', () => {
     mockHostEl = document.createElement('div');
     mockHostEl.style.display = 'block';
     document.body.appendChild(mockHostEl);
+
+    // Mock getDisplayMedia
+    const mockTrack = { stop: vi.fn() };
+    const mockStream = { getVideoTracks: () => [mockTrack] };
+    const mockBitmap = {
+      width: 800,
+      height: 600,
+      close: vi.fn(),
+    };
+
+    Object.defineProperty(navigator, 'mediaDevices', {
+      value: {
+        getDisplayMedia: vi.fn().mockResolvedValue(mockStream),
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    // Mock ImageCapture
+    (globalThis as any).ImageCapture = vi.fn().mockImplementation(() => ({
+      grabFrame: vi.fn().mockResolvedValue(mockBitmap),
+    }));
+
+    // Mock canvas
+    const mockCtx = { drawImage: vi.fn() };
+    HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue(mockCtx) as any;
+    HTMLCanvasElement.prototype.toDataURL = vi.fn().mockReturnValue('data:image/jpeg;base64,abc');
   });
 
   it('returns a data URL string starting with "data:"', async () => {
@@ -28,10 +48,9 @@ describe('captureScreenshot (SDK-02)', () => {
     expect(mockHostEl.style.display).toBe('');
   });
 
-  it('restores widget host element display even if html2canvas throws', async () => {
-    const html2canvas = (await import('html2canvas-pro')).default as ReturnType<typeof vi.fn>;
-    html2canvas.mockRejectedValueOnce(new Error('capture failed'));
-    await expect(captureScreenshot(mockHostEl)).rejects.toThrow('capture failed');
+  it('restores widget host element display even if getDisplayMedia throws', async () => {
+    (navigator.mediaDevices.getDisplayMedia as any).mockRejectedValueOnce(new Error('denied'));
+    await expect(captureScreenshot(mockHostEl)).rejects.toThrow('denied');
     expect(mockHostEl.style.display).toBe('');
   });
 });
