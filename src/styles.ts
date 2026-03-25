@@ -18,6 +18,28 @@ export const WIDGET_CSS = `
     opacity: 0.9;
   }
 
+  .loupe-btn--loading {
+    pointer-events: none;
+    min-width: 40px;
+    min-height: 36px;
+  }
+
+  .loupe-btn--loading::after {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 0 auto;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: loupe-spin 0.6s linear infinite;
+  }
+
+  @keyframes loupe-spin {
+    to { transform: rotate(360deg); }
+  }
+
   .bottom-right {
     bottom: 24px;
     right: 24px;

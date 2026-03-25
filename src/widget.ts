@@ -123,7 +123,12 @@ export class LoupeWidget {
         // 3. Open annotation step inside the shadow DOM
         mountAnnotationStep(this.shadow!, rawDataUrl ?? '', {
           onSave: async (_annotations, annotatedDataUrl) => {
-            // 4. Submit with annotated screenshot
+            // 4. Show loader on feedback button during upload
+            button.classList.add('loupe-btn--loading');
+            button.textContent = '';
+            button.setAttribute('disabled', '');
+
+            // 5. Submit with annotated screenshot
             const context = capturePageContext();
             try {
               const result = await submitFeedback({
@@ -139,6 +144,9 @@ export class LoupeWidget {
             } catch {
               alert('Failed to send feedback. Please try again.');
             } finally {
+              button.classList.remove('loupe-btn--loading');
+              button.textContent = this.config.buttonLabel;
+              button.removeAttribute('disabled');
               submitBtn.textContent = originalLabel;
               submitBtn.removeAttribute('disabled');
             }
