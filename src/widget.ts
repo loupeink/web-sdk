@@ -10,6 +10,7 @@ export interface LoupeWidgetConfig {
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
   color?: string;
   buttonLabel?: string;
+  dashboardUrl?: string;
 }
 
 export class LoupeWidget {
@@ -24,6 +25,7 @@ export class LoupeWidget {
       position: config.position ?? 'bottom-right',
       color: config.color ?? '#10b981',
       buttonLabel: config.buttonLabel ?? 'Feedback',
+      dashboardUrl: config.dashboardUrl ?? 'https://app.loupe.ink',
     };
   }
 
@@ -124,7 +126,7 @@ export class LoupeWidget {
             // 4. Submit with annotated screenshot
             const context = capturePageContext();
             try {
-              await submitFeedback({
+              const result = await submitFeedback({
                 apiKey: this.config.apiKey,
                 edgeFunctionUrl: this.config.edgeFunctionUrl,
                 comment,
@@ -133,6 +135,7 @@ export class LoupeWidget {
                 context,
               });
               textarea.value = '';
+              this.showToast(result.project_id, result.id);
             } catch {
               alert('Failed to send feedback. Please try again.');
             } finally {
@@ -153,6 +156,31 @@ export class LoupeWidget {
         submitBtn.removeAttribute('disabled');
       }
     });
+  }
+
+  private showToast(projectId: string, itemId: string): void {
+    if (!this.shadow) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'loupe-toast';
+
+    const text = document.createElement('span');
+    text.textContent = 'Feedback sent.';
+
+    const link = document.createElement('a');
+    link.href = `${this.config.dashboardUrl}/projects/${projectId}/${itemId}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'View in Loupe';
+
+    toast.appendChild(text);
+    toast.appendChild(link);
+    this.shadow.appendChild(toast);
+
+    setTimeout(() => {
+      toast.classList.add('toast--out');
+      toast.addEventListener('animationend', () => toast.remove());
+    }, 4000);
   }
 
   destroy(): void {

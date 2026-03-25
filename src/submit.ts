@@ -9,7 +9,13 @@ export interface SubmitFeedbackOpts {
   context: PageContext;
 }
 
-export async function submitFeedback(opts: SubmitFeedbackOpts): Promise<{ ok: boolean }> {
+export interface SubmitFeedbackResult {
+  ok: boolean;
+  id: string;
+  project_id: string;
+}
+
+export async function submitFeedback(opts: SubmitFeedbackOpts): Promise<SubmitFeedbackResult> {
   const response = await fetch(opts.edgeFunctionUrl, {
     method: 'POST',
     headers: {
