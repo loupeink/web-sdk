@@ -59,10 +59,11 @@ Place the snippet before `</body>`. The widget mounts automatically.
 
 ## Getting an API key
 
-1. Sign in to [app.loupe.ink](https://app.loupe.ink)
-2. Open a project → **API Keys**
-3. Click **Generate key** — copy the `lp_…` key
-4. Pass it to `init({ apiKey: '...' })`
+1. Sign in at [app.loupe.ink](https://app.loupe.ink)
+2. Go to **Organization Settings → API Keys** (top-right menu → Settings → API Keys tab)
+3. Select a project, optionally add a label, click **Generate**
+4. Copy the `lp_…` key — it is shown only once
+5. Pass it to `init({ apiKey: '...' })`
 
 ## React
 
