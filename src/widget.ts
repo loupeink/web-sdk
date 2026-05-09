@@ -153,7 +153,7 @@ export class LoupeWidget {
                 context,
               });
               textarea.value = '';
-              this.showToast();
+              this.showToast(result.github_issue_url);
             } catch {
               alert('Failed to send feedback. Please try again.');
             } finally {
@@ -179,12 +179,16 @@ export class LoupeWidget {
     });
   }
 
-  private showToast(): void {
+  private showToast(githubIssueUrl?: string): void {
     if (!this.shadow) return;
 
     const toast = document.createElement('div');
     toast.className = 'loupe-toast';
-    toast.textContent = 'Feedback sent. Thank you!';
+    if (githubIssueUrl) {
+      toast.innerHTML = 'Feedback sent. <a href="' + githubIssueUrl + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">View GitHub issue</a>';
+    } else {
+      toast.textContent = 'Feedback sent. Thank you!';
+    }
     this.shadow.appendChild(toast);
 
     setTimeout(() => {
