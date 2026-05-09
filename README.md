@@ -7,11 +7,13 @@ Floating feedback widget for web apps — captures screenshots, annotations, and
 
 ## Features
 
-- **Floating button** — non-intrusive feedback trigger, configurable position and color
+- **Floating button** — non-intrusive feedback trigger, configurable position, color, and offset
 - **In-browser screenshot** — captures the visible viewport, no browser extension required
 - **Annotation canvas** — draw, highlight, and blur regions on the screenshot before submitting
 - **Context capture** — automatically records current URL, page title, viewport size, and user agent
 - **Shadow DOM isolated** — widget styles never conflict with your app's CSS
+- **Light / dark / auto theme** — follows system preference or set explicitly
+- **Programmatic API** — `open()`, `close()`, `toggle()` the modal from your own code
 - **Works everywhere** — npm/bundler or plain `<script>` tag (CDN)
 
 ## Install
@@ -51,11 +53,23 @@ Place the snippet before `</body>`. The widget mounts automatically.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `apiKey` | `string` | **required** | Project API key from Loupe dashboard |
-| `position` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | Button position |
+| `apiKey` | `string` | **required** | Project API key from the Loupe dashboard |
+| `position` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | Button corner position |
 | `color` | `string` | `'#10b981'` | Button background color (any CSS color) |
 | `buttonLabel` | `string` | `'Feedback'` | Button text |
-| `endpoint` | `string` | Loupe production URL | Override Edge Function URL (self-hosted) |
+| `buttonHtml` | `string` | — | Custom HTML for the button (overrides `buttonLabel`) |
+| `hideBranding` | `boolean` | `false` | Hide "Powered by Loupe" link (Pro & Team plans) |
+| `showDelayMs` | `number` | `0` | Delay in ms before the button appears after `mount()` |
+| `offset` | `{ x?: number; y?: number }` | `{ x: 24, y: 24 }` | Pixel offset from the viewport edge |
+| `theme` | `'light' \| 'dark' \| 'auto'` | `'dark'` | Modal color theme (`'auto'` follows system preference) |
+| `zIndex` | `number` | `2147483647` | CSS z-index for the widget |
+| `screenshotEnabled` | `boolean` | `true` | Set to `false` to skip screenshot capture and annotation |
+| `defaultSeverity` | `'critical' \| 'major' \| 'minor' \| 'suggestion'` | `'minor'` | Pre-selected severity in the dropdown |
+| `successMessage` | `string` | `'Feedback sent. Thank you!'` | Toast text shown after submit (when no GitHub issue URL) |
+| `publicWarning` | `'github' \| 'linear' \| 'both'` | — | Shows an amber privacy notice when feedback is auto-posted to a public destination |
+| `onSubmit` | `(result: { id: string; url?: string; github_issue_url?: string }) => void` | — | Callback fired after successful submission |
+| `stripUrlParams` | `boolean` | `false` | Strip query parameters from the page URL captured in context |
+| `edgeFunctionUrl` | `string` | Loupe production URL | Override the Edge Function URL (self-hosted) |
 
 ## Getting an API key
 
@@ -64,6 +78,85 @@ Place the snippet before `</body>`. The widget mounts automatically.
 3. Select a project, optionally add a label, click **Generate**
 4. Copy the `lp_…` key — it is shown only once
 5. Pass it to `init({ apiKey: '...' })`
+
+## Examples
+
+### Delayed appearance
+
+Show the button 3 seconds after page load — useful for not distracting users immediately:
+
+```typescript
+init({
+  apiKey: 'lp_your_key',
+  showDelayMs: 3000,
+});
+```
+
+### Custom position and offset
+
+```typescript
+init({
+  apiKey: 'lp_your_key',
+  position: 'bottom-left',
+  offset: { x: 32, y: 32 },
+});
+```
+
+### Light theme
+
+```typescript
+init({
+  apiKey: 'lp_your_key',
+  theme: 'light',        // or 'auto' to follow system preference
+});
+```
+
+### Skip screenshot (faster, lighter)
+
+```typescript
+init({
+  apiKey: 'lp_your_key',
+  screenshotEnabled: false,
+});
+```
+
+### Programmatic open/close
+
+```typescript
+import { init, getWidget } from '@loupeink/web-sdk';
+
+init({ apiKey: 'lp_your_key' });
+
+// Open the modal from your own button or trigger
+document.querySelector('#my-help-btn').addEventListener('click', () => {
+  getWidget()?.open();
+});
+```
+
+### Privacy warning for public destinations
+
+If your Loupe project auto-pushes to a public GitHub repo, show users a notice before they submit:
+
+```typescript
+init({
+  apiKey: 'lp_your_key',
+  publicWarning: 'github',   // 'github' | 'linear' | 'both'
+});
+```
+
+### Submit callback
+
+```typescript
+init({
+  apiKey: 'lp_your_key',
+  onSubmit: (result) => {
+    console.log('Feedback submitted:', result.id);
+    if (result.github_issue_url) {
+      console.log('GitHub issue:', result.github_issue_url);
+    }
+  },
+});
+```
 
 ## React
 
@@ -111,15 +204,11 @@ Route feedback through your own backend:
 ```typescript
 init({
   apiKey: 'lp_your_key',
-  endpoint: 'https://your-server.com/feedback',
+  edgeFunctionUrl: 'https://your-server.com/feedback',
 });
 ```
 
 Your endpoint receives: `apiKey`, `comment`, `severity`, `screenshotDataUrl` (base64 PNG), and a `context` object (`url`, `title`, `viewport`, `userAgent`).
-
-## Development
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
