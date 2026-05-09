@@ -1,7 +1,6 @@
 export const WIDGET_CSS = `
   .loupe-btn {
     position: fixed;
-    z-index: 2147483647;
     background-color: #10b981;
     color: #ffffff;
     border: none;
@@ -40,32 +39,9 @@ export const WIDGET_CSS = `
     to { transform: rotate(360deg); }
   }
 
-  .bottom-right {
-    bottom: 24px;
-    right: 24px;
-  }
-
-  .bottom-left {
-    bottom: 24px;
-    left: 24px;
-  }
-
-  .top-right {
-    top: 24px;
-    right: 24px;
-  }
-
-  .top-left {
-    top: 24px;
-    left: 24px;
-  }
-
   .loupe-modal {
     display: none;
     position: fixed;
-    z-index: 2147483646;
-    bottom: 80px;
-    right: 24px;
     background: #18181b;
     border: 1px solid #3f3f46;
     border-radius: 12px;
@@ -150,11 +126,89 @@ export const WIDGET_CSS = `
     cursor: pointer;
   }
 
+  /* PII note below textarea */
+  .loupe-pii-note {
+    font-size: 11px;
+    color: #71717a;
+    margin: -8px 0 12px;
+    padding: 0;
+    line-height: 1.4;
+  }
+
+  /* Public posting privacy warning */
+  .loupe-public-warn {
+    font-size: 11px;
+    color: #f59e0b;
+    margin: 0 0 12px;
+    padding: 8px 10px;
+    line-height: 1.4;
+    background: rgba(245,158,11,0.08);
+    border-radius: 6px;
+    border: 1px solid rgba(245,158,11,0.2);
+  }
+
+  /* Light theme overrides */
+  .loupe-theme--light {
+    background: #ffffff;
+    border-color: #e4e4e7;
+    color: #18181b;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  .loupe-theme--light textarea,
+  .loupe-theme--light select {
+    background: #f4f4f5;
+    border-color: #e4e4e7;
+    color: #18181b;
+  }
+
+  .loupe-theme--light .loupe-modal-cancel {
+    color: #52525b;
+    border-color: #e4e4e7;
+  }
+
+  .loupe-theme--light .loupe-branding {
+    color: #a1a1aa;
+    border-color: #e4e4e7;
+  }
+
+  .loupe-theme--light .loupe-pii-note {
+    color: #a1a1aa;
+  }
+
+  /* Auto theme: dark by default, switches to light on system preference */
+  @media (prefers-color-scheme: light) {
+    .loupe-theme--auto {
+      background: #ffffff;
+      border-color: #e4e4e7;
+      color: #18181b;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    .loupe-theme--auto textarea,
+    .loupe-theme--auto select {
+      background: #f4f4f5;
+      border-color: #e4e4e7;
+      color: #18181b;
+    }
+
+    .loupe-theme--auto .loupe-modal-cancel {
+      color: #52525b;
+      border-color: #e4e4e7;
+    }
+
+    .loupe-theme--auto .loupe-branding {
+      color: #a1a1aa;
+      border-color: #e4e4e7;
+    }
+
+    .loupe-theme--auto .loupe-pii-note {
+      color: #a1a1aa;
+    }
+  }
+
   .loupe-toast {
     position: fixed;
-    z-index: 2147483647;
-    bottom: 80px;
-    right: 24px;
     background: #18181b;
     border: 1px solid #3f3f46;
     border-radius: 10px;
